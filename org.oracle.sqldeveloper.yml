@@ -1,0 +1,34 @@
+app-id: org.oracle.sqldeveloper
+runtime: org.freedesktop.Platform
+runtime-version: '22.08'
+sdk: org.freedesktop.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.openjdk17
+command: /app/sqldeveloper/sqldeveloper.sh
+modules:
+  - name: openjdk
+    buildsystem: simple
+    build-commands:
+      - /usr/lib/sdk/openjdk17/install.sh
+  - name: sqldeveloper
+    buildsystem: simple
+    build-commands:
+      - unzip -d /app/ sqldeveloper-22.2.1.234.1810-no-jre.zip
+      - unzip -d /app/ openjfx-17.0.6_linux-x64_bin-sdk.zip javafx-sdk-17.0.6/lib/**
+      - install -D /app/sqldeveloper/icon.png /app/share/icons/hicolor/32x32/apps/org.oracle.sqldeveloper.png
+      - install -D org.oracle.sqldeveloper.desktop /app/share/applications/org.oracle.sqldeveloper.desktop
+    sources:
+      - type: file
+        path: sqldeveloper-22.2.1.234.1810-no-jre.zip
+      - type: file
+        path: openjfx-17.0.6_linux-x64_bin-sdk.zip
+      - type: file
+        path: org.oracle.sqldeveloper.desktop
+finish-args:
+  - --env=PATH=/app/jre/bin:/app/sqldeveloper/bin:/usr/bin
+  - --env=_JAVA_OPTIONS=--add-exports=java.desktop/com.sun.java.swing.plaf.gtk=ALL-UNNAMED --add-exports=java.desktop/javax.swing.plaf.synth=ALL-UNNAMED --module-path=/app/javafx-sdk-17.0.6/lib/ --add-modules=ALL-MODULE-PATH -Djdk.gtk.verbose=true -Djdk.gtk.version=3 --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.lang.ref=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.security=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.nio=ALL-UNNAMED --add-exports=java.base/sun.reflect.annotation=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.desktop/javax.swing.plaf.basic=ALL-UNNAMED --add-opens=java.desktop/javax.swing.text=ALL-UNNAMED --add-opens=java.desktop/javax.swing=ALL-UNNAMED --add-opens=java.desktop/java.awt=ALL-UNNAMED --add-opens=java.desktop/java.awt.event=ALL-UNNAMED --add-opens=java.desktop/sun.awt.X11=ALL-UNNAMED --add-opens=java.desktop/javax.swing.plaf.synth=ALL-UNNAMED --add-opens=java.desktop/com.sun.java.swing.plaf.gtk=ALL-UNNAMED --add-opens=java.desktop/sun.awt.shell=ALL-UNNAMED --add-opens=java.desktop/sun.awt.im=ALL-UNNAMED --add-exports=java.desktop/sun.awt=ALL-UNNAMED --add-exports=java.desktop/java.awt.peer=ALL-UNNAMED --add-exports=java.desktop/com.sun.beans.editors=ALL-UNNAMED --add-exports=java.desktop/sun.swing=ALL-UNNAMED --add-exports=java.desktop/sun.awt.im=ALL-UNNAMED --add-exports=java.desktop/com.sun.java.swing.plaf.motif=ALL-UNNAMED
+  - --filesystem=home
+  - --share=ipc
+  - --share=network
+  - --socket=x11
+  - --socket=wayland
